@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Thư viện Nhóm 10 – Quản lý mượn sách</title>
+<style>
+:root{--bg:#f1f5f9;--sf:#fff;--tx:#0f172a;--mu:#64748b;--bd:#e2e8f0;--pr:#1a365d;--ac:#f26522;--ok:#059669;--er:#dc2626;--sb:#0b1b34;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0a1220;--sf:#111c30;--tx:#e6edf7;--mu:#94a3b8;--bd:#22304a;--pr:#7fb0ff;--sb:#060d19}}
+:root[data-theme=dark]{--bg:#0a1220;--sf:#111c30;--tx:#e6edf7;--mu:#94a3b8;--bd:#22304a;--pr:#7fb0ff;--sb:#060d19}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--tx);font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+button,input,select{font:inherit;color:inherit}
+input,select{width:100%;padding:9px 11px;border:1px solid var(--bd);border-radius:8px;background:var(--bg)}
+input:focus,select:focus{outline:2px solid var(--ac);outline-offset:-1px}
+label{display:block;font-size:13px;font-weight:600;color:var(--mu);margin:12px 0 4px}
+.btn{border:0;border-radius:8px;padding:9px 16px;font-weight:600;cursor:pointer;background:var(--ac);color:#fff}
+.btn.g{background:transparent;border:1px solid var(--bd);color:var(--tx)}.btn.r{background:var(--er)}.btn.s{padding:5px 10px;font-size:13px}
+.login{min-height:100vh;display:grid;place-items:center;padding:20px;background:radial-gradient(800px 400px at 80% 0,#1d4f9c55,transparent),var(--sb)}
+.lc{background:var(--sf);border-radius:16px;padding:30px;width:100%;max-width:400px;box-shadow:0 20px 50px #0006}
+.lc h1{margin:0 0 4px;font-size:22px;color:var(--pr)}.lc p{margin:0 0 6px;color:var(--mu);font-size:14px}
+.hint{font-size:12.5px;color:var(--mu);margin-top:14px;text-align:center}
+.link{color:var(--ac);cursor:pointer;background:none;border:0;padding:0;font-weight:600}
+.app{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+aside{background:var(--sb);color:#cbd5e1;padding:18px 12px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:4px}
+aside b{color:#fff;font-size:17px;padding:4px 10px 14px}
+aside button{text-align:left;background:none;border:0;color:inherit;padding:10px 12px;border-radius:8px;cursor:pointer}
+aside button:hover{background:#ffffff14}aside button.on{background:var(--ac);color:#fff;font-weight:600}
+.me{margin-top:auto;font-size:13px;padding:10px;border-top:1px solid #ffffff22}
+main{padding:24px;min-width:0}
+@media(max-width:800px){.app{grid-template-columns:1fr}aside{position:static;height:auto;flex-direction:row;overflow-x:auto;align-items:center;padding:10px}aside b{padding:0 8px}aside button{white-space:nowrap}.me{margin:0 0 0 auto;border:0;white-space:nowrap}main{padding:16px}}
+h2{margin:0 0 16px;font-size:22px}
+.bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}.bar input{flex:1;min-width:180px}.bar select{width:auto}
+.tw{overflow-x:auto;background:var(--sf);border:1px solid var(--bd);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:14px}
+th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--bd);vertical-align:top}
+th{color:var(--mu);font-size:12px;text-transform:uppercase;letter-spacing:.05em}tr:last-child td{border:0}
+td.a{white-space:nowrap;text-align:right}td.a .btn{margin-left:4px}
+.em{padding:28px;text-align:center;color:var(--mu)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:16px}
+.card b{display:block;font-size:26px;color:var(--pr)}.card span{font-size:13px;color:var(--mu)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.box{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:18px}.box h3{margin:0 0 10px;font-size:15px}
+.pill{display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:700}
+.p1{background:#f2652222;color:var(--ac)}.p2{background:#05966922;color:var(--ok)}.p3{background:#dc262622;color:var(--er)}.p4{background:#1a365d22;color:var(--pr)}
+.bw{display:flex;align-items:center;gap:10px;margin:8px 0;font-size:14px}.bw i{display:block;height:8px;border-radius:5px;background:var(--ac)}.bw span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ln{display:grid;grid-template-columns:1fr 90px 38px;gap:8px;margin-top:8px}
+dialog{border:0;border-radius:14px;padding:24px;width:min(440px,92vw);background:var(--sf);color:var(--tx);box-shadow:0 20px 60px #0007}
+dialog::backdrop{background:#0008}dialog h3{margin:0 0 4px}
+.err{color:var(--er);font-size:13.5px;margin-top:10px;min-height:18px}.acts{display:flex;gap:8px;justify-content:flex-end;margin-top:14px}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--sb);color:#fff;padding:10px 18px;border-radius:10px;opacity:0;pointer-events:none;transition:.25s;z-index:99;max-width:90vw}
+#toast.on{opacity:1}
+.sm{font-size:12.5px;color:var(--mu)}
+</style>
+</head>
+<body>
+<div id="root"></div><div id="toast"></div><dialog id="dlg"></dialog>
+<script>
+const $=s=>document.querySelector(s),K="lib_nhom10",TY={SV:{n:"Sinh viên thường",max:3,days:14,rate:5000,c:"p4"},UT:{n:"Sinh viên ưu tiên",max:5,days:21,rate:3000,c:"p1"},GV:{n:"Giảng viên",max:10,days:30,rate:2000,c:"p2"}};
+const E=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const iso=d=>d.toISOString().slice(0,10),TODAY=iso(new Date(Date.now()-new Date().getTimezoneOffset()*6e4)),addD=(s,n)=>iso(new Date(Date.parse(s)+n*864e5)),diff=(a,b)=>Math.round((Date.parse(a)-Date.parse(b))/864e5),vd=s=>s.split("-").reverse().join("/");
+const money=n=>n.toLocaleString("vi-VN")+"đ",nd=s=>String(s).normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/đ/g,"d").replace(/Đ/g,"D").toLowerCase();
+const sha=async s=>{try{return[...new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s)))].map(x=>x.toString(16).padStart(2,"0")).join("")}catch(e){return"p:"+s}};
+let DB,S={v:"dash",q:"",sort:"",f:"all",user:null,tries:0,reg:false};
+const persist=()=>{try{localStorage.setItem(K,JSON.stringify(DB))}catch(e){}};
+const nid=(a,p,w)=>p+String(Math.max(0,...a.filter(x=>x.id.startsWith(p)).map(x=>+x.id.slice(p.length)||0))+1).padStart(w,"0");
+const bk=id=>DB.books.find(b=>b.id===id),rd=id=>DB.readers.find(r=>r.id===id),act=t=>t.status==="active";
+const held=rid=>DB.tickets.filter(t=>t.rid===rid&&act(t)).reduce((s,t)=>s+t.items.reduce((a,i)=>a+i.q,0),0);
+const over=t=>act(t)&&TODAY>t.due;
+/* ---- nghiệp vụ (giống BorrowService / ReturnService) ---- */
+function vBook(o){if(!o.title.trim()||!o.author.trim()||!o.cat.trim())throw Error("Tên, tác giả, thể loại không được để trống");const q=+o.qty,p=+o.price;if(!Number.isInteger(q)||q<0)throw Error("Số lượng phải là số nguyên không âm");if(isNaN(p)||p<0||o.price==="")throw Error("Giá trị phải là số không âm");return{title:o.title.trim(),author:o.author.trim(),cat:o.cat.trim(),qty:q,price:p}}
+function vReader(o){if(!o.name.trim())throw Error("Họ tên không được để trống");if(!/^0\d{9,10}$/.test(o.phone.trim()))throw Error("Số điện thoại phải bắt đầu bằng 0 và có 10–11 chữ số");return{name:o.name.trim(),phone:o.phone.trim()}}
+function borrow(rid,items,date){const r=rd(rid);if(!r)throw Error("Bạn đọc không tồn tại: "+rid);if(!items.length)throw Error("Phải chọn ít nhất một sách");const m={};items.forEach(i=>{if(!bk(i.b))throw Error("Sách không tồn tại: "+i.b);if(!(i.q>0))throw Error("Số lượng mượn phải lớn hơn 0");m[i.b]=(m[i.b]||0)+i.q});
+ for(const b in m){const x=bk(b);if(x.qty<=0)throw Error(`Sách "${x.title}" đã hết`);if(m[b]>x.qty)throw Error(`Sách "${x.title}" chỉ còn ${x.qty} cuốn`)}
+ const tot=Object.values(m).reduce((a,b)=>a+b,0),h=held(rid),T=TY[r.type];if(h+tot>T.max)throw Error(`Vượt hạn mức: ${r.name} (${T.n}) tối đa ${T.max} cuốn, đang giữ ${h}, muốn mượn thêm ${tot}`);
+ for(const b in m)bk(b).qty-=m[b];const t={id:nid(DB.tickets,"PM",4),rid,borrow:date,due:addD(date,T.days),status:"active",items:Object.entries(m).map(([b,q])=>({b,q}))};DB.tickets.push(t);return t}
+function giveBack(id,date){const t=DB.tickets.find(x=>x.id===id);if(!t)throw Error("Không tìm thấy phiếu "+id);if(!act(t))throw Error("Phiếu "+id+" đã được trả trước đó");if(date<t.borrow)throw Error("Ngày trả không được trước ngày mượn ("+vd(t.borrow)+")");
+ const late=Math.max(0,diff(date,t.due)),fine=late*TY[rd(t.rid).type].rate;t.items.forEach(i=>{const b=bk(i.b);if(b)b.qty+=i.q});t.status="done";t.ret={date,late,fine};return t}
+async function seed(){const B=[["Lập trình Java cơ bản","Nguyễn Văn Hiệp","CNTT",5,150000],["Cấu trúc dữ liệu và giải thuật","Trần Đức Minh","CNTT",4,120000],["Cơ sở dữ liệu","Lê Thanh Hà","CNTT",3,130000],["Mạng máy tính","Phạm Quốc Bảo","CNTT",3,140000],["Giải tích 1","Nguyễn Đình Trí","Toán",6,85000],["Đại số tuyến tính","Lê Hồng Sơn","Toán",4,80000],["Vật lý đại cương","Lương Duyên Bình","Vật lý",5,95000],["Tiếng Anh chuyên ngành CNTT","Hoàng Văn Vân","Ngoại ngữ",2,70000],["Kinh tế vi mô","Nguyễn Văn Công","Kinh tế",3,90000],["Triết học Mác - Lênin","Bộ Giáo dục và Đào tạo","Lý luận",8,60000],["Clean Code","Robert C. Martin","CNTT",1,250000],["Thiết kế hướng đối tượng với UML","Đặng Văn Đức","CNTT",0,110000]];
+ const R=[["SV","Nguyễn Văn An","0901000001"],["SV","Trần Thị Bình","0901000002"],["SV","Lê Minh Châu","0901000003"],["UT","Phạm Thu Dung","0902000001"],["UT","Hoàng Gia Huy","0902000002"],["GV","Đỗ Quang Khải","0903000001"],["GV","Vũ Mai Lan","0903000002"]];
+ DB={acc:[{id:"TT01",name:"Quản trị thư viện",phone:"0900000001",user:"admin",hash:await sha("admin123")},{id:"TT02",name:"Nguyễn Thị Thủ Thư",phone:"0900000002",user:"thuthu",hash:await sha("123456")}],books:[],readers:[],tickets:[]};
+ B.forEach(b=>DB.books.push({id:nid(DB.books,"S",3),title:b[0],author:b[1],cat:b[2],qty:b[3],price:b[4]}));R.forEach(r=>DB.readers.push({id:nid(DB.readers,r[0],2),type:r[0],name:r[1],phone:r[2]}));
+ borrow("SV01",[{b:"S001",q:1}],addD(TODAY,-20));borrow("UT01",[{b:"S002",q:2}],addD(TODAY,-10));
+ giveBack(borrow("SV02",[{b:"S001",q:1}],addD(TODAY,-30)).id,addD(TODAY,-12));giveBack(borrow("GV01",[{b:"S003",q:1}],addD(TODAY,-50)).id,addD(TODAY,-15));persist()}
+/* ---- tiện ích UI ---- */
+function toast(m){const t=$("#toast");t.textContent=m;t.className="on";clearTimeout(toast.i);toast.i=setTimeout(()=>t.className="",2600)}
+function form(title,fields,fn,o={}){const d=$("#dlg");d.innerHTML=`<form><h3>${E(title)}</h3>${o.msg?`<p class="sm">${o.msg}</p>`:""}${fields.map(f=>`<label>${f.l}</label>${f.o?`<select name="${f.k}">${f.o.map(x=>`<option value="${E(x[0])}" ${x[0]==f.v?"selected":""}>${E(x[1])}</option>`).join("")}</select>`:`<input name="${f.k}" type="${f.t||"text"}" value="${E(f.v??"")}" ${f.t==="number"?'step="any"':""}>`}`).join("")}<div class="err"></div><div class="acts"><button type="button" class="btn g" onclick="dlg.close()">Hủy</button><button class="btn ${o.red?"r":""}">${o.ok||"Lưu"}</button></div></form>`;
+ d.querySelector("form").onsubmit=e=>{e.preventDefault();const v=Object.fromEntries(new FormData(e.target));try{fn(v);persist();d.close();render();toast(o.done||"Đã lưu thành công")}catch(x){d.querySelector(".err").textContent=x.message}};d.showModal()}
+const tbl=(h,rows,empty)=>rows.length?`<div class="tw"><table><tr>${h.map(x=>`<th>${x}</th>`).join("")}</tr>${rows.join("")}</table></div>`:`<div class="tw em">${empty||"Không có dữ liệu"}</div>`;
+/* ---- các màn hình ---- */
+const V={
+dash(){const ts=DB.tickets,cnt={};ts.forEach(t=>t.items.forEach(i=>cnt[i.b]=(cnt[i.b]||0)+i.q));const top=Object.entries(cnt).sort((a,b)=>b[1]-a[1]).slice(0,5),mx=top[0]?top[0][1]:1,od=ts.filter(over),fines=ts.reduce((s,t)=>s+(t.ret?t.ret.fine:0),0);
+ return`<h2>Thống kê tổng quan</h2><div class="cards"><div class="card"><b>${DB.books.length}</b><span>Đầu sách</span></div><div class="card"><b>${DB.books.reduce((s,b)=>s+b.qty,0)}</b><span>Cuốn trong kho</span></div><div class="card"><b>${DB.readers.length}</b><span>Bạn đọc</span></div><div class="card"><b>${ts.filter(act).length}</b><span>Phiếu đang mượn</span></div><div class="card"><b style="color:var(--er)">${od.length}</b><span>Phiếu quá hạn</span></div><div class="card"><b>${money(fines)}</b><span>Tổng phí phạt</span></div></div>
+ <div class="two"><div class="box"><h3>Top sách được mượn nhiều</h3>${top.length?top.map(([id,n])=>`<div class="bw"><span>${E(bk(id)?.title)}</span><i style="width:${n/mx*90}px"></i><b>${n}</b></div>`).join(""):'<p class="sm">Chưa có dữ liệu</p>'}</div>
+ <div class="box"><h3>Bạn đọc theo loại</h3>${Object.keys(TY).map(k=>`<div class="bw"><span>${TY[k].n}</span><b>${DB.readers.filter(r=>r.type===k).length}</b></div>`).join("")}<h3 style="margin-top:16px">Phiếu quá hạn</h3>${od.length?od.map(t=>`<div class="bw"><span>${t.id} – ${E(rd(t.rid)?.name)}</span><span class="pill p3" style="flex:none">trễ ${diff(TODAY,t.due)} ngày</span></div>`).join(""):'<p class="sm">Không có phiếu quá hạn</p>'}</div></div>`},
+books(){return`<h2>Quản lý sách</h2><div class="bar"><input data-q placeholder="Tìm theo mã hoặc tên sách (không cần dấu)…" value="${E(S.q)}"><select data-s><option value="">Sắp xếp: mặc định</option><option value="n">Theo tên A→Z</option><option value="q">Số lượng giảm dần</option><option value="p">Giá tăng dần</option></select><button class="btn" data-a="addB">+ Thêm sách</button></div><div id="tb">${V.bt()}</div>`},
+bt(){let a=DB.books.filter(b=>!S.q||nd(b.id+" "+b.title).includes(nd(S.q)));if(S.sort==="n")a.sort((x,y)=>x.title.localeCompare(y.title,"vi"));if(S.sort==="q")a.sort((x,y)=>y.qty-x.qty);if(S.sort==="p")a.sort((x,y)=>x.price-y.price);
+ return tbl(["Mã","Tên sách","Tác giả","Thể loại","SL","Giá",""],a.map(b=>`<tr><td><b>${b.id}</b></td><td>${E(b.title)}</td><td>${E(b.author)}</td><td>${E(b.cat)}</td><td>${b.qty?b.qty:'<span class="pill p3">Hết</span>'}</td><td>${money(b.price)}</td><td class="a"><button class="btn g s" data-a="editB" data-id="${b.id}">Sửa</button><button class="btn g s" data-a="delB" data-id="${b.id}">Xóa</button></td></tr>`),"Không tìm thấy sách phù hợp")},
+readers(){return`<h2>Quản lý bạn đọc</h2><div class="bar"><input data-q placeholder="Tìm theo mã hoặc họ tên…" value="${E(S.q)}"><select data-s><option value="">Sắp xếp: mặc định</option><option value="n">Theo tên A→Z</option><option value="i">Theo mã</option></select><button class="btn" data-a="addR">+ Thêm bạn đọc</button></div><div id="tb">${V.rt()}</div>
+ <div class="tw" style="margin-top:16px"><table><tr><th>Quy định</th>${Object.values(TY).map(t=>`<th>${t.n}</th>`).join("")}</tr><tr><td>Tối đa</td>${Object.values(TY).map(t=>`<td>${t.max} cuốn</td>`).join("")}</tr><tr><td>Hạn mượn</td>${Object.values(TY).map(t=>`<td>${t.days} ngày</td>`).join("")}</tr><tr><td>Phạt / ngày trễ</td>${Object.values(TY).map(t=>`<td>${money(t.rate)}</td>`).join("")}</tr></table></div>`},
+rt(){let a=DB.readers.filter(r=>!S.q||nd(r.id+" "+r.name).includes(nd(S.q)));if(S.sort==="n")a.sort((x,y)=>x.name.localeCompare(y.name,"vi"));if(S.sort==="i")a.sort((x,y)=>x.id.localeCompare(y.id));
+ return tbl(["Mã","Họ tên","SĐT","Loại","Đang giữ",""],a.map(r=>`<tr><td><b>${r.id}</b></td><td>${E(r.name)}</td><td>${r.phone}</td><td><span class="pill ${TY[r.type].c}">${TY[r.type].n}</span></td><td>${held(r.id)}/${TY[r.type].max}</td><td class="a"><button class="btn g s" data-a="editR" data-id="${r.id}">Sửa</button><button class="btn g s" data-a="delR" data-id="${r.id}">Xóa</button></td></tr>`),"Không tìm thấy bạn đọc")},
+borrow(){return`<h2>Lập phiếu mượn sách</h2><div class="box" style="max-width:640px"><label>Bạn đọc</label><select id="br">${DB.readers.map(r=>`<option value="${r.id}">${r.id} – ${E(r.name)} (${TY[r.type].n}, đang giữ ${held(r.id)}/${TY[r.type].max})</option>`).join("")}</select><label>Ngày mượn</label><input id="bd" type="date" value="${TODAY}"><label>Sách muốn mượn</label><div id="lines">${V.line()}</div><button class="btn g s" style="margin-top:10px" data-a="addL">+ Thêm sách</button><div class="err" id="be"></div><div class="acts"><button class="btn" data-a="doBorrow">Tạo phiếu mượn</button></div></div>`},
+line(){return`<div class="ln"><select>${DB.books.map(b=>`<option value="${b.id}">${b.id} – ${E(b.title)} (còn ${b.qty})</option>`).join("")}</select><input type="number" min="1" value="1"><button class="btn g s" data-a="rmL">✕</button></div>`},
+tickets(){return`<h2>Phiếu mượn – trả sách</h2><div class="bar"><input data-q placeholder="Tra cứu theo mã phiếu (PM0001)…" value="${E(S.q)}"><select data-f><option value="all">Tất cả</option><option value="act">Đang mượn</option><option value="done">Đã trả</option><option value="od">Quá hạn</option></select></div><div id="tb">${V.tt()}</div>`},
+tt(){let a=DB.tickets.filter(t=>(!S.q||t.id.toLowerCase().includes(S.q.toLowerCase()))&&(S.f==="all"||(S.f==="act"&&act(t))||(S.f==="done"&&!act(t))||(S.f==="od"&&over(t)))).reverse();
+ return tbl(["Phiếu","Bạn đọc","Sách","Mượn / Hạn trả","Trạng thái",""],a.map(t=>`<tr><td><b>${t.id}</b></td><td>${E(rd(t.rid)?.name)}<div class="sm">${t.rid}</div></td><td>${t.items.map(i=>`${E(bk(i.b)?.title)} ×${i.q}`).join("<br>")}</td><td>${vd(t.borrow)}<div class="sm">hạn ${vd(t.due)}</div></td><td>${act(t)?(over(t)?`<span class="pill p3">Quá hạn ${diff(TODAY,t.due)} ngày</span>`:'<span class="pill p1">Đang mượn</span>'):`<span class="pill p2">Đã trả</span><div class="sm">${vd(t.ret.date)} · trễ ${t.ret.late} ngày · phạt ${money(t.ret.fine)}</div>`}</td><td class="a">${act(t)?`<button class="btn s" data-a="ret" data-id="${t.id}">Trả sách</button>`:""}</td></tr>`),"Không có phiếu phù hợp")}};
+const NAV=[["dash","📊 Thống kê"],["books","📖 Sách"],["readers","👥 Bạn đọc"],["borrow","📤 Mượn sách"],["tickets","🧾 Phiếu / Trả sách"]];
+function render(){if(!DB)return;const r=$("#root");if(!S.user){const rg=S.reg;r.innerHTML=`<div class="login"><form class="lc" id="lf"><h1>📚 Thư viện Nhóm 10</h1><p>${rg?"Tạo tài khoản thủ thư mới":"Đăng nhập hệ thống quản lý mượn sách"}</p>${rg?'<label>Họ tên</label><input name="name"><label>Số điện thoại</label><input name="phone" inputmode="tel">':""}<label>Tên đăng nhập</label><input name="user" autocomplete="username"><label>Mật khẩu</label><input name="pw" type="password" autocomplete="${rg?"new-password":"current-password"}">${rg?'<label>Nhập lại mật khẩu</label><input name="pw2" type="password">':""}<div class="err" id="le"></div><button class="btn" style="width:100%;margin-top:6px" ${S.tries>=3?"disabled":""}>${rg?"Tạo tài khoản":"Đăng nhập"}</button><p class="hint"><button type="button" class="link" data-a="tg">${rg?"← Quay lại đăng nhập":"Tạo tài khoản mới"}</button></p>${rg?"":'<p class="hint">Tài khoản mẫu: admin / admin123 · thuthu / 123456</p>'}</form></div>`;$("#lf").onsubmit=login;return}
+ r.innerHTML=`<div class="app"><aside><b>📚 Thư viện N10</b>${NAV.map(n=>`<button data-a="nav" data-id="${n[0]}" class="${S.v===n[0]?"on":""}">${n[1]}</button>`).join("")}<div class="me">👤 ${E(S.user.name)}<br><button class="link" data-a="out">Đăng xuất</button></div></aside><main>${V[S.v]()}</main></div>`}
+async function login(e){e.preventDefault();const v=Object.fromEntries(new FormData(e.target)),er=m=>$("#le").textContent=m,u=(v.user||"").trim();
+ if(S.reg){if(!v.name.trim())return er("Họ tên không được để trống");if(!/^0\d{9,10}$/.test(v.phone.trim()))return er("Số điện thoại phải bắt đầu bằng 0 và có 10–11 chữ số");if(u.length<3||/\s/.test(u))return er("Tên đăng nhập ít nhất 3 ký tự, không có khoảng trắng");if(DB.acc.some(a=>a.user.toLowerCase()===u.toLowerCase()))return er("Tên đăng nhập đã tồn tại");if(v.pw.length<6)return er("Mật khẩu ít nhất 6 ký tự");if(v.pw!==v.pw2)return er("Mật khẩu nhập lại không khớp");
+  const a={id:nid(DB.acc,"TT",2),name:v.name.trim(),phone:v.phone.trim(),user:u,hash:await sha(v.pw)};DB.acc.push(a);persist();S.reg=false;S.user=a;sessionStorageSet(a.user);return render()}
+ const a=DB.acc.find(x=>x.user.toLowerCase()===u.toLowerCase());if(a&&a.hash===await sha(v.pw)){S.user=a;S.tries=0;sessionStorageSet(a.user);render()}else{S.tries++;er(S.tries>=3?"Sai quá 3 lần. Vui lòng tải lại trang để thử lại.":`Sai tên đăng nhập hoặc mật khẩu (lần ${S.tries}/3)`);if(S.tries>=3)e.target.querySelector(".btn").disabled=true}}
+const sessionStorageSet=u=>{try{sessionStorage.setItem(K+"_u",u)}catch(e){}};
+/* ---- sự kiện ---- */
+const bf=(b)=>[{k:"title",l:"Tên sách",v:b?.title},{k:"author",l:"Tác giả",v:b?.author},{k:"cat",l:"Thể loại",v:b?.cat},{k:"qty",l:"Số lượng",t:"number",v:b?.qty??1},{k:"price",l:"Giá trị (đ)",t:"number",v:b?.price}];
+const rf=(r)=>[{k:"name",l:"Họ tên",v:r?.name},{k:"phone",l:"Số điện thoại",v:r?.phone},{k:"type",l:"Loại bạn đọc",v:r?.type||"SV",o:Object.entries(TY).map(([k,t])=>[k,t.n])}];
+const A={nav(id){S.v=id;S.q="";S.sort="";S.f="all";render()},tg(){S.reg=!S.reg;render()},out(){S.user=null;try{sessionStorage.removeItem(K+"_u")}catch(e){}render()},
+addB(){form("Thêm sách",bf(),v=>{DB.books.push({id:nid(DB.books,"S",3),...vBook(v)})},{done:"Đã thêm sách"})},
+editB(id){const b=bk(id);form("Sửa sách "+id,bf(b),v=>Object.assign(b,vBook(v)),{done:"Đã cập nhật sách"})},
+delB(id){const b=bk(id);form("Xóa sách?",[],()=>{if(DB.tickets.some(t=>act(t)&&t.items.some(i=>i.b===id)))throw Error("Không thể xóa: sách đang được mượn (có phiếu chưa trả)");DB.books=DB.books.filter(x=>x.id!==id)},{msg:`Xóa <b>${E(b.title)}</b> (${id})?`,ok:"Xóa",red:1,done:"Đã xóa sách"})},
+addR(){form("Thêm bạn đọc",rf(),v=>{const o=vReader(v);DB.readers.push({id:nid(DB.readers,v.type,2),type:v.type,...o})},{done:"Đã thêm bạn đọc"})},
+editR(id){const r=rd(id);form("Sửa bạn đọc "+id,rf(r),v=>{const o=vReader(v);if(v.type!==r.type&&held(id))throw Error("Bạn đọc đang giữ sách, không thể đổi loại");Object.assign(r,o,{type:v.type})},{done:"Đã cập nhật bạn đọc"})},
+delR(id){const r=rd(id);form("Xóa bạn đọc?",[],()=>{if(held(id))throw Error("Không thể xóa: bạn đọc đang giữ sách chưa trả");DB.readers=DB.readers.filter(x=>x.id!==id)},{msg:`Xóa <b>${E(r.name)}</b> (${id})?`,ok:"Xóa",red:1,done:"Đã xóa bạn đọc"})},
+addL(){$("#lines").insertAdjacentHTML("beforeend",V.line())},rmL(_,el){const l=$("#lines");if(l.children.length>1)el.closest(".ln").remove()},
+doBorrow(){const items=[...document.querySelectorAll("#lines .ln")].map(l=>({b:l.querySelector("select").value,q:+l.querySelector("input").value}));try{const d=$("#bd").value;if(!d)throw Error("Vui lòng chọn ngày mượn");const t=borrow($("#br").value,items,d);persist();S.v="tickets";render();toast(`Đã tạo phiếu ${t.id} – hạn trả ${vd(t.due)}`)}catch(x){$("#be").textContent=x.message}},
+ret(id){const t=DB.tickets.find(x=>x.id===id);form("Trả sách – "+id,[{k:"d",l:"Ngày trả thực tế",t:"date",v:TODAY}],v=>{const r=giveBack(id,v.d);A.res=r.ret},{msg:`Hạn trả: ${vd(t.due)}. Có thể chọn ngày khác để mô phỏng trả trễ.`,ok:"Xác nhận trả",done:"Đã trả sách"});$("#dlg form").addEventListener("submit",()=>setTimeout(()=>{if(A.res){toast(A.res.late?`Trả trễ ${A.res.late} ngày – phí phạt ${money(A.res.fine)}`:"Trả đúng hạn – không phát sinh phí phạt");A.res=null}},50))}};
+document.addEventListener("click",e=>{const a=e.target.closest("[data-a]");if(a&&A[a.dataset.a])A[a.dataset.a](a.dataset.id,a)});
+document.addEventListener("input",e=>{const t=e.target,k=t.dataset;if("q"in k)S.q=t.value;else if("s"in k)S.sort=t.value;else if("f"in k)S.f=t.value;else return;const h=$("#tb");if(h)h.innerHTML=V[{books:"bt",readers:"rt",tickets:"tt"}[S.v]]()});
+(async()=>{try{DB=JSON.parse(localStorage.getItem(K))}catch(e){}if(!DB)await seed();try{const u=sessionStorage.getItem(K+"_u");if(u)S.user=DB.acc.find(a=>a.user===u)||null}catch(e){}render()})();
+</script>
+</body>
+</html>
